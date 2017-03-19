@@ -1,0 +1,10 @@
+{
+    "freeze_paths" : {
+        "libs/**": "./img",
+        "*.blocks/**": "./img"
+    },
+
+    "paths" : {
+        "./dist/_" : "_/"
+    }
+}

@@ -41,10 +41,35 @@ var techs = {
         { path: 'node_modules/bem-components/design/desktop.blocks', check: false },
         'common.blocks',
         'desktop.blocks'
-    ];
+    ],
+
+    fse = require('fs-extra'),
+    path = require('path'),
+    glob = require('glob'),
+
+    rootDir = path.join(__dirname, '..');
 
 module.exports = function(config) {
     var isProd = process.env.YENV === 'production';
+
+    config.task('dist', function (task) {
+
+        // build targets and copy it to 'dist' folder
+        function copyTargets(buildInfo) {
+            buildInfo.builtTargets.forEach(function (target) {
+                var src = path.join(rootDir, target),
+                    dst = path.join(rootDir, 'dist', path.basename(target));
+
+                fse.copySync(src, dst);
+            });
+        }
+
+        return task.buildTargets(glob.sync('*.bundles/*'))
+            .then(function (buildInfo) {
+                copyTargets(buildInfo);
+                task.log('Dist was created.');
+            });
+    });
 
     config.nodes('*.bundles/*', function(nodeConfig) {
         nodeConfig.addTechs([
