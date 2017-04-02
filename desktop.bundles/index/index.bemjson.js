@@ -14,6 +14,10 @@ module.exports = {
         {
             block: 'icon',
             mods: {type: 'meet'}
+        },
+        {
+            block: 'image',
+            url: '../../img/icon_type_meet.png'
         }
     ]
 };
